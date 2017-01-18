@@ -13,15 +13,15 @@ extension ActiveElement: Equatable {}
 
 func ==(a: ActiveElement, b: ActiveElement) -> Bool {
     switch (a, b) {
-    case (.URL(let a), .URL(let b)) where a == b: return true
-    case (.None, .None): return true
+    case (.url(let a), .url(let b)) where a == b: return true
+    case (.none, .none): return true
     default: return false
     }
 }
 
 class ActiveTypeTests: XCTestCase {
     
-    let label = ActiveLabel()
+    let label = ActiveLabel
     
     var activeElements: [ActiveElement] {
         return label.activeElements.flatMap({$0.1.flatMap({$0.element})})
@@ -30,11 +30,11 @@ class ActiveTypeTests: XCTestCase {
     var currentElementString: String {
         let currentElement = activeElements.first!
         switch currentElement {
-        case .URL(let url):
+        case .url(let url):
             return url
-        case .Phone(let number):
+        case .phone(let number):
             return number
-        case .None:
+        case .none:
             return ""
         }
     }
@@ -42,12 +42,12 @@ class ActiveTypeTests: XCTestCase {
     var currentElementType: ActiveType {
         let currentElement = activeElements.first!
         switch currentElement {
-        case .URL:
-            return .URL
-        case .Phone:
-            return .Phone
-        case .None:
-            return .None
+        case .url:
+            return .url
+        case .phone:
+            return .phone
+        case .none:
+            return .none
         }
     }
     
@@ -78,27 +78,27 @@ class ActiveTypeTests: XCTestCase {
         label.text = "http://www.google.com"
         XCTAssertEqual(activeElements.count, 1)
         XCTAssertEqual(currentElementString, "http://www.google.com")
-        XCTAssertEqual(currentElementType, ActiveType.URL)
+        XCTAssertEqual(currentElementType, ActiveType.url)
 
         label.text = "https://www.google.com"
         XCTAssertEqual(activeElements.count, 1)
         XCTAssertEqual(currentElementString, "https://www.google.com")
-        XCTAssertEqual(currentElementType, ActiveType.URL)
+        XCTAssertEqual(currentElementType, ActiveType.url)
 
         label.text = "http://www.google.com."
         XCTAssertEqual(activeElements.count, 1)
         XCTAssertEqual(currentElementString, "http://www.google.com")
-        XCTAssertEqual(currentElementType, ActiveType.URL)
+        XCTAssertEqual(currentElementType, ActiveType.url)
 
         label.text = "www.google.com"
         XCTAssertEqual(activeElements.count, 1)
         XCTAssertEqual(currentElementString, "www.google.com")
-        XCTAssertEqual(currentElementType, ActiveType.URL)
+        XCTAssertEqual(currentElementType, ActiveType.url)
         
         label.text = "pic.twitter.com/YUGdEbUx"
         XCTAssertEqual(activeElements.count, 1)
         XCTAssertEqual(currentElementString, "pic.twitter.com/YUGdEbUx")
-        XCTAssertEqual(currentElementType, ActiveType.URL)
+        XCTAssertEqual(currentElementType, ActiveType.url)
 
         label.text = "google.com"
         XCTAssertEqual(activeElements.count, 0)
@@ -107,23 +107,23 @@ class ActiveTypeTests: XCTestCase {
     func testPhoneNumbers() {
         label.text = "1-800-555-5555"
         XCTAssertEqual(activeElements.count, 1)
-        XCTAssertEqual(currentElementType, ActiveType.Phone)
+        XCTAssertEqual(currentElementType, ActiveType.phone)
         
         label.text = "301.987.6543"
         XCTAssertEqual(activeElements.count, 1)
-        XCTAssertEqual(currentElementType, ActiveType.Phone)
+        XCTAssertEqual(currentElementType, ActiveType.phone)
         
         label.text = "1-800-COMCAST"
         XCTAssertEqual(activeElements.count, 1)
-        XCTAssertEqual(currentElementType, ActiveType.Phone)
+        XCTAssertEqual(currentElementType, ActiveType.phone)
         
         label.text = "+1-(800)-555-2468"
         XCTAssertEqual(activeElements.count, 1)
-        XCTAssertEqual(currentElementType, ActiveType.Phone)
+        XCTAssertEqual(currentElementType, ActiveType.phone)
 
         label.text = "8473292"
         XCTAssertEqual(activeElements.count, 1)
-        XCTAssertEqual(currentElementType, ActiveType.Phone)
+        XCTAssertEqual(currentElementType, ActiveType.phone)
     }
 
     

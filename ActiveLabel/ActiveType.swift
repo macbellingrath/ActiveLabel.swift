@@ -9,15 +9,15 @@
 import Foundation
 
 enum ActiveElement {
-    case URL(String)
-    case Phone(String)
-    case None
+    case url(String)
+    case phone(String)
+    case none
 }
 
 public enum ActiveType {
-    case URL
-    case Phone
-    case None
+    case url
+    case phone
+    case none
 }
 
 struct ActiveBuilder {
@@ -28,9 +28,9 @@ struct ActiveBuilder {
         var elements: [(range: NSRange, element: ActiveElement)] = []
         
         for url in urls where url.range.length > 2 {
-            let word = nsstring.substringWithRange(url.range)
-                .stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            let element = ActiveElement.URL(word)
+            let word = nsstring.substring(with: url.range)
+                .trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            let element = ActiveElement.url(word)
             elements.append((url.range, element))
         }
         return elements
@@ -42,9 +42,9 @@ struct ActiveBuilder {
         var elements: [(range: NSRange, element: ActiveElement)] = []
         
         for url in urls where url.range.length > 2 {
-            let word = nsstring.substringWithRange(url.range)
-                .stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            let element = ActiveElement.Phone(word)
+            let word = nsstring.substring(with: url.range)
+                .trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            let element = ActiveElement.phone(word)
             elements.append((url.range, element))
         }
         return elements

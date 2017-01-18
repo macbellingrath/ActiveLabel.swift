@@ -54,17 +54,17 @@ struct RegexParser {
     
     static let phonePattern = "(\\+[0-9]{1,2}\\s?(\\(?\\s?[0-9]{3}[\\- \\. \\)]*))?(00[0-9]{1,2}\\s?(\\(?\\s?[0-9]{3}[\\- \\. \\)]*))?(\\(?\\s?[0-9]{3}[\\- \\. \\)]*)?[0-9]{3}[\\- \\.]?[0-9]{4}"
     
-    static let urlDetector = try? NSRegularExpression(pattern: urlPattern, options: [.CaseInsensitive])
-    static let phoneDetector = try? NSRegularExpression(pattern: phonePattern, options: [.CaseInsensitive])
+    static let urlDetector = try? NSRegularExpression(pattern: urlPattern, options: [.caseInsensitive])
+    static let phoneDetector = try? NSRegularExpression(pattern: phonePattern, options: [.caseInsensitive])
     
     static func getURLs(fromText text: String, range: NSRange) -> [NSTextCheckingResult] {
         guard let urlDetector = urlDetector else { return [] }
-        return urlDetector.matchesInString(text, options: [], range: range)
+        return urlDetector.matches(in: text, options: [], range: range)
     }
     
     static func getPhoneNumbers(fromText text: String, range: NSRange) -> [NSTextCheckingResult] {
         guard let phoneDetector = phoneDetector else { return [] }
-        return phoneDetector.matchesInString(text, options: [], range: range)
+        return phoneDetector.matches(in: text, options: [], range: range)
     }
     
 }
